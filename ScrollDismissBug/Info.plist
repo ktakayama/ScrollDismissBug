@@ -4,5 +4,7 @@
 <dict>
 	<key>NSCalendarsFullAccessUsageDescription</key>
 	<string>needs full access</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>needs access</string>
 </dict>
 </plist>

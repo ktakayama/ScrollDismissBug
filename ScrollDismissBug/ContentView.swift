@@ -52,13 +52,25 @@ struct ContentView: View {
     }
 
     private func requestAccessToCalendar(completion: @escaping () -> Void) {
-        eventStore.requestFullAccessToEvents { (granted, error) in
-            if granted {
-                DispatchQueue.main.async {
-                    completion()
+        if #available(iOS 17.0, *) {
+            eventStore.requestFullAccessToEvents { (granted, error) in
+                if granted {
+                    DispatchQueue.main.async {
+                        completion()
+                    }
+                } else if let error = error {
+                    print("Failed to request access: \(error)")
                 }
-            } else if let error = error {
-                print("Failed to request access: \(error)")
+            }
+        } else {
+            eventStore.requestAccess(to: EKEntityType.event) { (granted, error) in
+                if granted {
+                    DispatchQueue.main.async {
+                        completion()
+                    }
+                } else if let error = error {
+                    print("Failed to request access: \(error)")
+                }
             }
         }
     }
